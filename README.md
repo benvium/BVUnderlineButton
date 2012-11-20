@@ -30,7 +30,7 @@ If you're using code, just create the button as you would a regular Custom style
 
 
  Adjusting the underline position
- --------------------------------
+ ------
 
  Depending on the font you may wish to adjust the vertical position of the underline using the *underlinePosition* property. The default is -2 pixels. 
 
@@ -39,6 +39,6 @@ If you're using code, just create the button as you would a regular Custom style
   - Open the 'Identity Inspector' and click the + under 'User Defined Runtime Attributes'
   - Type 'underlinePosition' for keyPath, choose 'Number' for type, and type in the new value as a floating-point number (e.g. 1)
 
-  If you're using code, just set the underlinePosition property.
+ If you're using code, just set the underlinePosition property.
 
       button.underlinePosition = 1;
