@@ -1,5 +1,5 @@
 //
-//  BVUnderlineButton.h
+//  BVUnderlineButton.m
 //  https://github.com/benvium/BVUnderlineButton
 //
 //  Created by Benjamin Clayton on 20/11/2012.
