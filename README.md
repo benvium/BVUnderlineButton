@@ -7,6 +7,8 @@ Based on code originally found at http://davidjhinson.wordpress.com/2009/11/26/u
 
 This code requires ARC.
 
+Licence: MIT
+
 Usage
 -----
 
