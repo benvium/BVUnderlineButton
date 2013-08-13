@@ -91,7 +91,7 @@
     
     // Work out line spacing to put it just below text
     //  CGFloat baseline = rect.size.height + self.titleLabel.font.descender + 2;
-    CGFloat baseline = rect.size.height + self.titleLabel.font.descender + self.underlinePosition - 0.5;
+    CGFloat baseline = roundf(rect.size.height + self.titleLabel.font.descender + self.underlinePosition);
     
     // Draw a single line from left to right
     CGContextMoveToPoint(context, offset, baseline);
