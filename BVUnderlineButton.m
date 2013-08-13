@@ -74,14 +74,19 @@
     
     // Work out line width
     NSString *text = self.titleLabel.text;
-    CGSize sz = [text sizeWithFont:self.titleLabel.font forWidth:rect.size.width lineBreakMode:UILineBreakModeWordWrap];
-    CGFloat width = rect.size.width;
-    CGFloat offset = (rect.size.width - sz.width) / 2;
+    CGSize titleLabelSize = [text sizeWithFont:self.titleLabel.font forWidth:self.titleLabel.frame.size.width lineBreakMode:UILineBreakModeWordWrap];
+    CGFloat width = titleLabelSize.width;
     
-    if (offset > 0 && offset < rect.size.width) {
-        width -= offset;
-    } else {
+    CGFloat offset = 0;
+    if (self.contentHorizontalAlignment == UIControlContentHorizontalAlignmentCenter)
+        offset = (rect.size.width - width) / 2;
+    else if (self.contentHorizontalAlignment == UIControlContentHorizontalAlignmentRight)
+        offset = rect.size.width - width;
+    
+    if ((offset < 0) || ((offset + width) > rect.size.width))
+    {
         offset = 0.0;
+        width = rect.size.width;
     }
     
     // Work out line spacing to put it just below text
@@ -90,7 +95,7 @@
     
     // Draw a single line from left to right
     CGContextMoveToPoint(context, offset, baseline);
-    CGContextAddLineToPoint(context, width, baseline);
+    CGContextAddLineToPoint(context, offset + width, baseline);
     CGContextStrokePath(context);
 }
 
