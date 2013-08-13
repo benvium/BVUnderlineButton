@@ -74,23 +74,36 @@
     
     // Work out line width
     NSString *text = self.titleLabel.text;
-    CGSize sz = [text sizeWithFont:self.titleLabel.font forWidth:rect.size.width lineBreakMode:UILineBreakModeWordWrap];
-    CGFloat width = rect.size.width;
-    CGFloat offset = (rect.size.width - sz.width) / 2;
+    CGSize titleLabelSize = [text sizeWithFont:self.titleLabel.font forWidth:self.titleLabel.frame.size.width lineBreakMode:UILineBreakModeWordWrap];
+    CGFloat width = titleLabelSize.width;
     
-    if (offset > 0 && offset < rect.size.width) {
-        width -= offset;
-    } else {
-        offset = 0.0;
-    }
+    // Work out starting point of the underline
+    CGFloat xOffset = 0;
+    if (self.contentHorizontalAlignment == UIControlContentHorizontalAlignmentCenter)
+        xOffset = (rect.size.width - width) / 2;
+    else if (self.contentHorizontalAlignment == UIControlContentHorizontalAlignmentRight)
+        xOffset = rect.size.width - width;
     
-    // Work out line spacing to put it just below text
-    //  CGFloat baseline = rect.size.height + self.titleLabel.font.descender + 2;
-    CGFloat baseline = rect.size.height + self.titleLabel.font.descender + self.underlinePosition - 0.5;
+    // If offset would be negative, we'll set it to 0
+    xOffset = MAX(xOffset, 0);
+    
+    // If width would be more than our buttons width, we'll set it to the buttons width
+    width = MIN(width, rect.size.width);
+    
+    // Work out our vertical baseline
+    CGFloat textHeight = self.titleLabel.font.lineHeight;
+    CGFloat yBaseline = 0 + textHeight; //roundf(rect.size.height + self.titleLabel.font.descender + self.underlinePosition);
+    if (self.contentVerticalAlignment == UIControlContentVerticalAlignmentCenter)
+        yBaseline = (rect.size.height + textHeight) / 2.0;
+    if (self.contentVerticalAlignment == UIControlContentVerticalAlignmentBottom)
+        yBaseline = rect.size.height - 1;
+    
+    // Round yBaseline, so its value has always that of a full pixel
+    yBaseline = roundf(yBaseline);
     
     // Draw a single line from left to right
-    CGContextMoveToPoint(context, offset, baseline);
-    CGContextAddLineToPoint(context, width, baseline);
+    CGContextMoveToPoint(context, xOffset, yBaseline);
+    CGContextAddLineToPoint(context, xOffset + width, yBaseline);
     CGContextStrokePath(context);
 }
 
