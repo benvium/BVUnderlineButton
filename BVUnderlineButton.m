@@ -77,25 +77,33 @@
     CGSize titleLabelSize = [text sizeWithFont:self.titleLabel.font forWidth:self.titleLabel.frame.size.width lineBreakMode:UILineBreakModeWordWrap];
     CGFloat width = titleLabelSize.width;
     
-    CGFloat offset = 0;
+    // Work out starting point of the underline
+    CGFloat xOffset = 0;
     if (self.contentHorizontalAlignment == UIControlContentHorizontalAlignmentCenter)
-        offset = (rect.size.width - width) / 2;
+        xOffset = (rect.size.width - width) / 2;
     else if (self.contentHorizontalAlignment == UIControlContentHorizontalAlignmentRight)
-        offset = rect.size.width - width;
+        xOffset = rect.size.width - width;
     
-    if ((offset < 0) || ((offset + width) > rect.size.width))
-    {
-        offset = 0.0;
-        width = rect.size.width;
-    }
+    // If offset would be negative, we'll set it to 0
+    xOffset = MAX(xOffset, 0);
     
-    // Work out line spacing to put it just below text
-    //  CGFloat baseline = rect.size.height + self.titleLabel.font.descender + 2;
-    CGFloat baseline = roundf(rect.size.height + self.titleLabel.font.descender + self.underlinePosition);
+    // If width would be more than our buttons width, we'll set it to the buttons width
+    width = MIN(width, rect.size.width);
+    
+    // Work out our vertical baseline
+    CGFloat textHeight = self.titleLabel.font.lineHeight;
+    CGFloat yBaseline = 0 + textHeight; //roundf(rect.size.height + self.titleLabel.font.descender + self.underlinePosition);
+    if (self.contentVerticalAlignment == UIControlContentVerticalAlignmentCenter)
+        yBaseline = (rect.size.height + textHeight) / 2.0;
+    if (self.contentVerticalAlignment == UIControlContentVerticalAlignmentBottom)
+        yBaseline = rect.size.height - 1;
+    
+    // Round yBaseline, so its value has always that of a full pixel
+    yBaseline = roundf(yBaseline);
     
     // Draw a single line from left to right
-    CGContextMoveToPoint(context, offset, baseline);
-    CGContextAddLineToPoint(context, offset + width, baseline);
+    CGContextMoveToPoint(context, xOffset, yBaseline);
+    CGContextAddLineToPoint(context, xOffset + width, yBaseline);
     CGContextStrokePath(context);
 }
 
