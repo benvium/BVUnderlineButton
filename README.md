@@ -44,3 +44,12 @@ If you're using code, just create the button as you would a regular Custom style
 If you're using code, just set the underlinePosition property.
 
     button.underlinePosition = 1;
+
+Supported content alignment
+---
+BVUnderlineButton supports horizontal and vertical content alignment.
+
+    button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+    button.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
+
+![alignment](https://raw.github.com/FlorianCP/BVUnderlineButton/master/Screenshots/alignment.png)
